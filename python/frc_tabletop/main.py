@@ -8,7 +8,7 @@ Team 5115 - Knight Riders
 
 Author: Joe Adams
  Email: joseph.s.adams@gmail.com
-   URL: https://github.com/jsadams/frc_tabletop.git
+   URL: git@github.com:frc-team5115/frc_tabletop.git
 
 version: 2
 
