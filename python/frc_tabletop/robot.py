@@ -56,12 +56,13 @@ class Robot(pygame.sprite.Sprite):
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
 
-        # if (angle==0):
-        #     self.rect.right = x
-        # else:
-        #    self.rect.left = x
-
-        self.rect.centerx = x
+        if (angle==90):
+            self.rect.right = x
+        elif (angle==270):
+            self.rect.left = x
+        else:
+            self.rect.centerx = x
+            
         self.rect.centery = y
 
         

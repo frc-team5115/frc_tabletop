@@ -246,14 +246,14 @@ class Game:
 
 
         # Create the robot object
-        self.robot1 = Robot(blue_x, blue_y1,BLUE1,angle=270,keymap=key_map_1, is_mecanum=True,team_name=5115,width=10*in_,length=45*in_)
-        self.robot2 = Robot(blue_x, blue_y2,BLUE2,angle=270,keymap=key_map_2, is_mecanum=False,team_name=493)
-        self.robot3 = Robot(blue_x, blue_y3,BLUE3,angle=270,keymap=key_map_3, is_mecanum=False,team_name=503)
+        self.robot1 = Robot(blue_x, blue_y1,BLUE1,angle=270,keymap=key_map_1, is_mecanum=True,team_name=5115,width=27*in_,length=45*in_)
+        self.robot2 = Robot(blue_x, blue_y2,BLUE2,angle=270,keymap=key_map_2, is_mecanum=False,team_name=493,width=27*in_,length=55*in_)
+        self.robot3 = Robot(blue_x, blue_y3,BLUE3,angle=270,keymap=key_map_3, is_mecanum=False,team_name=503,width=45*in_,length=45*in_)
 
 
-        self.robot4 = Robot(red_x, red_y1,RED1,angle=90,keymap=key_map_4,is_mecanum=True,team_name=3361)
-        self.robot5 = Robot(red_x, red_y2,RED2,angle=90,keymap=key_map_5,is_mecanum=False,team_name=3258)
-        self.robot6 = Robot(red_x, red_y3,RED3,angle=90,keymap=key_map_6,is_mecanum=False,team_name=2106)
+        self.robot4 = Robot(red_x, red_y1,RED1,angle=90,keymap=key_map_4,is_mecanum=True,team_name=3361,width=27*in_,length=45*in_)
+        self.robot5 = Robot(red_x, red_y2,RED2,angle=90,keymap=key_map_5,is_mecanum=False,team_name=3258,width=27*in_,length=45*in_)
+        self.robot6 = Robot(red_x, red_y3,RED3,angle=90,keymap=key_map_6,is_mecanum=False,team_name=2106,width=27*in_,length=45*in_)
 
 
 #        self.all_sprites_list = pygame.sprite.Group()
