@@ -10,7 +10,7 @@ Author: Joe Adams
  Email: joseph.s.adams@gmail.com
    URL: git@github.com:frc-team5115/frc_tabletop.git
 
-version: 2
+version: 3
 
 19/01/11 - multiple keymaps now working
 

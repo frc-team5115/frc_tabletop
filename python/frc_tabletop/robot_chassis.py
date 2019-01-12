@@ -54,9 +54,9 @@ class RobotChassis(pygame.sprite.Sprite):
         delta_angle=self.rotation_rate*self.dt
         self.heading.rotate_ip(delta_angle)
 
-        if self.verbosity > 5:
-            print "center=",self.position,
-            print "delta_angle=",delta_angle,
-            print "heading_angle=",self.get_heading_angle()
+        #if self.verbosity > 5:
+        #    print "center=",self.position,
+        #    print "delta_angle=",delta_angle,
+        #    print "heading_angle=",self.get_heading_angle()
 
  
