@@ -391,14 +391,14 @@ class Game:
                 if event.type == pygame.QUIT:
                     done = True
 
-                elif event.type == pygame.VIDEORESIZE:
-                    old_surface_saved = surface
-                    surface = pygame.display.set_mode((event.w, event.h),
-                                                      pygame.RESIZABLE)
-                    # On the next line, if only part of the window
-                    # needs to be copied, there's some other options.
-                    surface.blit(old_surface_saved, (0,0))
-                    del old_surface_saved     
+                # elif event.type == pygame.VIDEORESIZE:
+                #     old_surface_saved = surface
+                #     surface = pygame.display.set_mode((event.w, event.h),
+                #                                       pygame.RESIZABLE)
+                #     # On the next line, if only part of the window
+                #     # needs to be copied, there's some other options.
+                #     surface.blit(old_surface_saved, (0,0))
+                #     del old_surface_saved     
 
                 # # Set the speed based on the key pressed
                 # elif event.type == pygame.KEYDOWN:
