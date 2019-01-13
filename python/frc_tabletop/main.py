@@ -13,7 +13,7 @@ Author: Joe Adams
 version: 4
 
 yy/mm/dd
-19/01/13 - added joystick support
+19/01/13 - added joystick support, mecanum can be in field reference frame
 19/01/11 - multiple keymaps now working
 
 
