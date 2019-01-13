@@ -33,7 +33,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         self.velocity= Vector2(0,0)
 
 
-
+        self.max_speed=4
 
         
         self.rotation_rate_keyboard=0
@@ -65,34 +65,43 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         return self.heading.as_polar()[1]
 
     def set_body_velocity_joystick(self, v_x, v_y):
-        v2=Vector2(v_x,v_y)            
-        if self.is_macanum:
+
+        v_joystick=Vector2(v_x,v_y)
+        if (v_joystick.length()==0):
+            self.velocity_body_joystick=v_joystick
+            return
+        
+        
+        ### convert full scale vector to max speed
+        speed_joystick_units=v_joystick.length()
+
+        ### stick gives between -1,1
+        speed_joystick_units_max=Vector2(1,1).length()
+        
+        speed=speed_joystick_units/speed_joystick_units_max*self.max_speed
+
+        v2=v_joystick.normalize()*speed
+        
+        if not self.is_macanum:
             v2.y=0
+            
         self.velocity_body_joystick=v2
     
 
     def change_body_velocity_keyboard(self, a_x, a_y):
         a=Vector2(a_x,a_y)            
         if not self.is_macanum:
-            a.x=0
+            a.y=0
         self.velocity_body_keyboard+=a*self.dt
 
     def rotate_keyboard(self,delta_angle):
         self.rotation_rate_keyboard+=delta_angle
 
     def rotate_joystick(self,x):
-
-        self.rotation_rate_joystick=x
-        # # x=-1 --> 1
-        # delta_angle=x*3
-        
-        # #### rotate to an intertial frame (the playing field)    
-        # self.heading.rotate_ip(delta_angle)
-        
+        self.rotation_rate_joystick=x  
 
   
-    def update_base(self):
-        
+    def update_base(self):        
    
         theta=self.get_heading_angle()
 
@@ -103,7 +112,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
 
         [speed,direction]=velocity_body.as_polar()
 
-        self.max_speed=2
+        
         if speed > self.max_speed:
             velocity_body.from_polar([self.max_speed,direction])
 
