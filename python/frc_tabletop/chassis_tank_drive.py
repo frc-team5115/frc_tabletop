@@ -98,10 +98,10 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         self.velocity_body_keyboard+=a*self.dt
 
     def rotate_keyboard(self,delta_angle):
-        self.rotation_rate_keyboard+=delta_angle
+        self.rotation_rate_keyboard-=delta_angle
 
     def rotate_joystick(self,x):
-        self.rotation_rate_joystick=x  
+        self.rotation_rate_joystick=-x  
 
   
     def update_base(self):        
