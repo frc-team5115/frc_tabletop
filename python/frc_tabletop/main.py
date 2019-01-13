@@ -45,7 +45,7 @@ from units import *
 class Game:
 
     def __init__(self):
-        self.verbosity=10
+        self.verbosity=0
         
         ##############################################
         #field_width=230*in_*3
@@ -360,37 +360,6 @@ class Game:
         while not done:
 
             for event in pygame.event.get():
-                if self.verbosity>0:
-                    print ("n_joysticks", pygame.joystick.get_count())
-                    print ("event.type", event.type)
-
-
-                    #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
-                    print ("event.type", event.type),
-                    if event.type == pygame.JOYAXISMOTION:
-                        print("JOYAXISMOTION")
-                    elif event.type == pygame.JOYAXISMOTION:
-                        print("JOYBALLMOTION")
-                    elif event.type == pygame.JOYBUTTONDOWN:
-                        print("JOYBUTTONDOWN")
-                    elif event.type == pygame.JOYBUTTONUP:
-                        print("JOYBUTTONUP")
-                    elif event.type == pygame.JOYHATMOTION:
-                        print("JOYHATMOTION")
-
-
-                    
-                    for joystick in self.joysticks:
-                        print ("get_hat(0)", joystick.get_hat(0))
-
-                        for i in range(joystick.get_numaxes()):
-                            print ("get_axis(",i,")=",joystick.get_axis(i))
-
-
-
-
-
-
                 
                 if event.type == pygame.QUIT:
                     done = True
@@ -412,17 +381,20 @@ class Game:
                     for robot in self.robots_list:
                         robot.process_event(event)
                         
-                elif event.type == pygame.JOYBUTTONDOWN:
+                elif ( (event.type == pygame.JOYAXISMOTION) or
+                       ( event.type == pygame.JOYBUTTONUP) or
+                       ( event.type == pygame.JOYBUTTONDOWN) or
+                       ( event.type == pygame.JOYHATMOTION)):
                     for robot in self.robots_list:
                         robot.process_joystick_event(event)
 
-                elif event.type == pygame.JOYBUTTONUP:
-                    for robot in self.robots_list:
-                        robot.process_joystick_event(event)
+                # elif event.type == pygame.JOYBUTTONUP:
+                #     for robot in self.robots_list:
+                #         robot.process_joystick_event(event)
 
-                elif event.type == pygame.JOYAXISMOTION:
-                    for robot in self.robots_list:
-                        robot.process_joystick_event(event)
+                # elif event.type == pygame.JOYAXISMOTION:
+                #     for robot in self.robots_list:
+                #         robot.process_joystick_event(event)
 
             for robot in self.robots_list:
                 robot.update(self.solid_sprites_list)

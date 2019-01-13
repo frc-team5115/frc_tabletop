@@ -19,7 +19,7 @@ class Robot(pygame.sprite.Sprite):
         # Call the parent's constructor
         super(Robot,self).__init__()
 
-        self.verbosity=10
+        self.verbosity=0
 
         self.keymap=keymap
         self.joystick_id=joystick
@@ -201,28 +201,28 @@ class Robot(pygame.sprite.Sprite):
             return
 
         my_joystick=pygame.joystick.Joystick(self.joystick_id)
-        if self.verbosity > 0:
-             print ("n_joysticks", pygame.joystick.get_count())
-             print ("event.type", event.type)
+        # if self.verbosity > 0:
+        #      print ("n_joysticks", pygame.joystick.get_count())
+        #      print ("event.type", event.type)
 
-             #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+        #      #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
              
-             if event.type == pygame.JOYAXISMOTION:
-                 print("JOYAXISMOTION")
-             elif event.type == pygame.JOYAXISMOTION:
-                print("JOYBALLMOTION")
-             elif event.type == pygame.JOYBUTTONDOWN:
-                print("JOYBUTTONDOWN")
-             elif event.type == pygame.JOYBUTTONUP:
-                 print("JOYBUTTONUP")
-             elif event.type == pygame.JOYHATMOTION:
-                 print("JOYHATMOTION")
+        #      if event.type == pygame.JOYAXISMOTION:
+        #          print("JOYAXISMOTION")
+        #      elif event.type == pygame.JOYAXISMOTION:
+        #         print("JOYBALLMOTION")
+        #      elif event.type == pygame.JOYBUTTONDOWN:
+        #         print("JOYBUTTONDOWN")
+        #      elif event.type == pygame.JOYBUTTONUP:
+        #          print("JOYBUTTONUP")
+        #      elif event.type == pygame.JOYHATMOTION:
+        #          print("JOYHATMOTION")
 
-             print ("event.type", event.type)
-             print ("get_hat(0)", my_joystick.get_hat(0))
+        #      print ("event.type", event.type)
+        #      print ("get_hat(0)", my_joystick.get_hat(0))
 
-             for i in range(my_joystick.get_numaxes()):
-                 print ("get_axis(",i,")=",my_joystick.get_axis(i))
+        #      for i in range(my_joystick.get_numaxes()):
+        #          print ("get_axis(",i,")=",my_joystick.get_axis(i))
           
           
             
