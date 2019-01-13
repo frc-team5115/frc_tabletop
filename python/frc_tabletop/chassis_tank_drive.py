@@ -64,8 +64,11 @@ class ChassisTankDrive(pygame.sprite.Sprite):
     def get_heading_angle(self):
         return self.heading.as_polar()[1]
 
-    def set_body_velocity_joystick(self, v_x, v_y):
-
+    def set_body_velocity_joystick(self, joystick_x, joystick_y):
+        
+        v_x=joystick_x
+        v_y=joystick_y
+        
         v_joystick=Vector2(v_x,v_y)
         if (v_joystick.length()==0):
             self.velocity_body_joystick=v_joystick
@@ -83,7 +86,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         v2=v_joystick.normalize()*speed
         
         if not self.is_macanum:
-            v2.y=0
+            v2.x=0
             
         self.velocity_body_joystick=v2
     
@@ -91,7 +94,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
     def change_body_velocity_keyboard(self, a_x, a_y):
         a=Vector2(a_x,a_y)            
         if not self.is_macanum:
-            a.y=0
+            a.x=0
         self.velocity_body_keyboard+=a*self.dt
 
     def rotate_keyboard(self,delta_angle):
