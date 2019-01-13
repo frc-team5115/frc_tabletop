@@ -5,7 +5,10 @@ import loader_utils
 from units import *
 
 from pygame.math import Vector2
-from robot_chassis import RobotChassis
+
+#from robot_chassis import RobotChassis
+from chassis_tank_drive import ChassisTankDrive
+#from chassis_mecanum_drive import ChassisMecanumDrive
 
  
 #####################################################################
@@ -45,6 +48,7 @@ class Robot(pygame.sprite.Sprite):
                     
             font = pygame.font.SysFont('Sans', 10)
             text = font.render(str(team_name), True, (255, 255, 255))
+#            text = pygame.transform.rotate(text, angle+180)
             text = pygame.transform.rotate(text, angle+180)
 #            self.image.blit(text, self.image.get_rect())
             self.image.blit(text, [0,height/2])
@@ -68,8 +72,11 @@ class Robot(pygame.sprite.Sprite):
             
         self.rect.centery = y
 
-        
-        self.chassis=RobotChassis(self.rect.x,self.rect.y,angle,is_mecanum)
+
+       # if is_mecanum:
+       #    self.chassis=ChassisMecanumDrive(self.rect.x,self.rect.y,angle)
+       # else:
+        self.chassis=ChassisTankDrive(self.rect.x,self.rect.y,angle,is_mecanum)
 
         self.dt=1
         self.d_angle=3
@@ -79,16 +86,21 @@ class Robot(pygame.sprite.Sprite):
         # self.last_heading=0
         # self.last_rotation_rate=0
 
-    def changespeed(self, a_x, a_y):
+    def change_body_velocity_keyboard(self, a_x, a_y):
+        self.chassis.change_body_velocity_keyboard(a_x,a_y)
+
+    def set_body_velocity_joystick(self, a_x, a_y):
+        self.chassis.set_body_velocity_joystick(a_x,a_y)
+
+    def rotate_keyboard(self,delta_angle):
+        #self.rotation_rate+=delta_angle
+        self.chassis.rotate_keyboard(delta_angle)
+    def rotate_joystick(self,delta_angle):
+        #self.rotation_rate+=delta_angle
+        self.chassis.rotate_joystick(delta_angle)
+        
 
         
-        if a_y !=0:
-            self.chassis.change_forward_speed(a_y)
-            
-        if a_x !=0:
-            self.chassis.change_side_speed(a_x)        
-
-
     def update(self,all_sprites_list):
 
         backup_chassis=copy.deepcopy(self.chassis)
@@ -121,10 +133,6 @@ class Robot(pygame.sprite.Sprite):
         #now translate the whole thing
         self.rect.move_ip(self.chassis.position.x,self.chassis.position.y)
 
-    def rotate(self,delta_angle):
-        #self.rotation_rate+=delta_angle
-        self.chassis.rotate(delta_angle)
-        
         
     def is_collided_with(self, sprite):
         is_collided=self.rect.colliderect(sprite.rect)
@@ -155,32 +163,32 @@ class Robot(pygame.sprite.Sprite):
         # Set the speed based on the key pressed
         if event.type == pygame.KEYDOWN:            
             if value == "strafe_left":
-                self.changespeed(-self.d_speed, 0)
+                self.change_body_velocity_keyboard(-self.d_speed, 0)
             elif value == "strafe_right":
-                self.changespeed(self.d_speed, 0)
+                self.change_body_velocity_keyboard(self.d_speed, 0)
             elif value == "forward":
-                self.changespeed(0, -self.d_speed)
+                self.change_body_velocity_keyboard(0, -self.d_speed)
             elif value == "backward":
-                self.changespeed(0, self.d_speed)
+                self.change_body_velocity_keyboard(0, self.d_speed)
             elif value == "rotate_left":
-                self.rotate(self.d_angle)
+                self.rotate_keyboard(self.d_angle)
             elif value == "rotate_right":
-                self.rotate(-self.d_angle)
+                self.rotate_keyboard(-self.d_angle)
 
                 # Reset speed when key goes up
         elif event.type == pygame.KEYUP:
             if value == "strafe_left":
-                self.changespeed(self.d_speed, 0)
+                self.change_body_velocity_keyboard(self.d_speed, 0)
             elif value == "strafe_right":
-                self.changespeed(-self.d_speed, 0)
+                self.change_body_velocity_keyboard(-self.d_speed, 0)
             elif value == "forward":
-                self.changespeed(0, self.d_speed)
+                self.change_body_velocity_keyboard(0, self.d_speed)
             elif value == "backward":
-                self.changespeed(0, -self.d_speed)
+                self.change_body_velocity_keyboard(0, -self.d_speed)
             elif value == "rotate_left":
-                self.rotate(-self.d_angle)
+                self.rotate_keyboard(-self.d_angle)
             elif value == "rotate_right":
-                self.rotate(self.d_angle)
+                self.rotate_keyboard(self.d_angle)
 
     def process_joystick_event(self, event):
         if self.verbosity > 0:
@@ -235,11 +243,13 @@ class Robot(pygame.sprite.Sprite):
         left_stick_y=my_joystick.get_axis(1)
         right_stick_x=my_joystick.get_axis(3)
 
-        accel_x=left_stick_x;
-        accel_y=left_stick_y
-        rotate=right_stick_x;
-        self.changespeed(accel_x,accel_y)
+
+        
+        accel_x=round(left_stick_x,3);
+        accel_y=round(left_stick_y,3);
+        rotate=round(right_stick_x,3);
+        self.set_body_velocity_joystick(accel_x,accel_y)
 
         d_angle=rotate
-        self.rotate(d_angle)
+        self.rotate_joystick(d_angle)
 
