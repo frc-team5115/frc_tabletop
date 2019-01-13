@@ -12,6 +12,7 @@ Author: Joe Adams
 
 version: 3
 
+yy/mm/dd
 19/01/11 - multiple keymaps now working
 
 
@@ -21,6 +22,7 @@ version: 3
 import pygame, sys
 from pygame.locals import *
 from colors import *
+from keymaps import *
 
 import pygame
 from robot import Robot
@@ -43,7 +45,8 @@ from units import *
 class Game:
 
     def __init__(self):
-
+        self.verbosity=10
+        
         ##############################################
         #field_width=230*in_*3
         #field_height=133*in_*3
@@ -54,9 +57,19 @@ class Game:
         self.hab_line_x=94.3*in_;
         # Call this function so the Pygame library can initialize itself
         pygame.init()
+        pygame.joystick.init()
+
+        self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+
+        for joystick in self.joysticks:
+            joystick.init()
+            
+
+        
 
         # Create an 800x600 sized screen
         #screen_size=[800,600]
+
         screen_size=[self.field_width,int(self.field_height*1.20)]
         self.screen = pygame.display.set_mode(screen_size,pygame.RESIZABLE)
     
@@ -141,9 +154,7 @@ class Game:
 
         x=min_x
         y=max_y-dy_loading_station
-        blue_loading_station_b=LoadingStation(x,y,ORANGE,flip_x=False,flip_y=True)
-
-        
+        blue_loading_station_b=LoadingStation(x,y,ORANGE,flip_x=False,flip_y=True)        
 
         x=max_x
         y=mid_y        
@@ -185,7 +196,7 @@ class Game:
 
         
         ############################################
-        #  Robot starts
+        #  Robot starting points
         #
 
         blue_x=blue_hab_platform_level_1.rect.centerx
@@ -198,62 +209,23 @@ class Game:
         red_y2=red_y1+red_hab_platform_level_1.rect.height/3
         red_y3=red_y1-red_hab_platform_level_1.rect.height/3
         
-       
-        
-        key_map_1={ pygame.K_w: "forward",
-                    pygame.K_s: "backward",
-                    pygame.K_a: "strafe_left", 
-                    pygame.K_d: "strafe_right",
-                    pygame.K_e: "rotate_right",
-                    pygame.K_q:  "rotate_left" }
 
 
-        key_map_2={ pygame.K_t: "forward",
-                    pygame.K_g: "backward",
-                    pygame.K_f: "strafe_left", 
-                    pygame.K_h: "strafe_right",
-                    pygame.K_r: "rotate_right",
-                    pygame.K_y:  "rotate_left" }
-
-        key_map_3={ pygame.K_i: "forward",
-                    pygame.K_k: "backward",
-                    pygame.K_j: "strafe_left", 
-                    pygame.K_l: "strafe_right",
-                    pygame.K_u: "rotate_right",
-                    pygame.K_o:  "rotate_left" }
-
-
-        key_map_4={ pygame.K_UP: "forward",
-                    pygame.K_DOWN: "backward",
-                    pygame.K_LEFT: "strafe_left", 
-                    pygame.K_RIGHT: "strafe_right",
-                    pygame.K_PAGEUP: "rotate_right",
-                    pygame.K_PAGEDOWN:  "rotate_left" }
-
-        key_map_5={ pygame.K_KP0: "forward",
-                    pygame.K_KP1: "backward",
-                    pygame.K_KP2: "strafe_left", 
-                    pygame.K_KP3: "strafe_right",
-                    pygame.K_KP4:  "rotate_right",
-                    pygame.K_KP5: "rotate_left" }
-
-        key_map_6={ pygame.K_0: "forward",
-                    pygame.K_1: "backward",
-                    pygame.K_2: "strafe_left", 
-                    pygame.K_3: "strafe_right",
-                    pygame.K_4: "rotate_right",
-                    pygame.K_5: "rotate_left" }
 
 
         # Create the robot object
-        self.robot1 = Robot(blue_x, blue_y1,BLUE1,angle=270,keymap=key_map_1, is_mecanum=True,team_name=5115,width=27*in_,length=45*in_)
-        self.robot2 = Robot(blue_x, blue_y2,BLUE2,angle=270,keymap=key_map_2, is_mecanum=False,team_name=493,width=27*in_,length=55*in_)
-        self.robot3 = Robot(blue_x, blue_y3,BLUE3,angle=270,keymap=key_map_3, is_mecanum=False,team_name=503,width=45*in_,length=45*in_)
+
+        #
+        #
+        #
+        self.robot1 = Robot(x=blue_x, y=blue_y1, color=BLUE1, angle=270,keymap=key_map_1, joystick=joystick_1,is_mecanum=True,team_name=5115,width=27*in_,length=45*in_)
+        self.robot2 = Robot(x=blue_x, y=blue_y2, color=BLUE2, angle=270,keymap=key_map_2, joystick=joystick_2,is_mecanum=False,team_name=493,width=27*in_,length=55*in_)
+        self.robot3 = Robot(x=blue_x, y=blue_y3, color=BLUE3, angle=270,keymap=key_map_3, joystick=joystick_3,is_mecanum=False,team_name=503,width=45*in_,length=45*in_)
 
 
-        self.robot4 = Robot(red_x, red_y1,RED1,angle=90,keymap=key_map_4,is_mecanum=True,team_name=3361,width=27*in_,length=45*in_)
-        self.robot5 = Robot(red_x, red_y2,RED2,angle=90,keymap=key_map_5,is_mecanum=False,team_name=3258,width=27*in_,length=45*in_)
-        self.robot6 = Robot(red_x, red_y3,RED3,angle=90,keymap=key_map_6,is_mecanum=False,team_name=2106,width=27*in_,length=45*in_)
+        self.robot4 = Robot(x=red_x, y=red_y1,color=RED1,angle=90,keymap=key_map_4,joystick=joystick_4,is_mecanum=True,team_name=3361,width=27*in_,length=45*in_)
+        self.robot5 = Robot(x=red_x, y=red_y2,color=RED2,angle=90,keymap=key_map_5,joystick=joystick_5,is_mecanum=False,team_name=3258,width=27*in_,length=45*in_)
+        self.robot6 = Robot(x=red_x, y=red_y3,color=RED3,angle=90,keymap=key_map_6,joystick=joystick_6,is_mecanum=False,team_name=2106,width=27*in_,length=45*in_)
 
 
 #        self.all_sprites_list = pygame.sprite.Group()
@@ -388,6 +360,38 @@ class Game:
         while not done:
 
             for event in pygame.event.get():
+                if self.verbosity>0:
+                    print ("n_joysticks", pygame.joystick.get_count())
+                    print ("event.type", event.type)
+
+
+                    #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+                    print ("event.type", event.type),
+                    if event.type == pygame.JOYAXISMOTION:
+                        print("JOYAXISMOTION")
+                    elif event.type == pygame.JOYAXISMOTION:
+                        print("JOYBALLMOTION")
+                    elif event.type == pygame.JOYBUTTONDOWN:
+                        print("JOYBUTTONDOWN")
+                    elif event.type == pygame.JOYBUTTONUP:
+                        print("JOYBUTTONUP")
+                    elif event.type == pygame.JOYHATMOTION:
+                        print("JOYHATMOTION")
+
+
+                    
+                    for joystick in self.joysticks:
+                        print ("get_hat(0)", joystick.get_hat(0))
+
+                        for i in range(joystick.get_numaxes()):
+                            print ("get_axis(",i,")=",joystick.get_axis(i))
+
+
+
+
+
+
+                
                 if event.type == pygame.QUIT:
                     done = True
 
@@ -398,37 +402,7 @@ class Game:
                 #     # On the next line, if only part of the window
                 #     # needs to be copied, there's some other options.
                 #     surface.blit(old_surface_saved, (0,0))
-                #     del old_surface_saved     
-
-                # # Set the speed based on the key pressed
-                # elif event.type == pygame.KEYDOWN:
-                #     if event.key == pygame.K_a:
-                #         self.robot1.changespeed(-d_speed, 0)
-                #     elif event.key == pygame.K_d:
-                #         self.robot1.changespeed(d_speed, 0)
-                #     elif event.key == pygame.K_w:
-                #         self.robot1.changespeed(0, -d_speed)
-                #     elif event.key == pygame.K_s:
-                #         self.robot1.changespeed(0, d_speed)
-                #     elif event.key == pygame.K_q:
-                #         self.robot1.rotate(d_angle)
-                #     elif event.key == pygame.K_e:
-                #         self.robot1.rotate(-d_angle)
-
-                # # Reset speed when key goes up
-                # elif event.type == pygame.KEYUP:
-                #     if event.key == pygame.K_a:
-                #         self.robot1.changespeed(d_speed, 0)
-                #     elif event.key == pygame.K_d:
-                #         self.robot1.changespeed(-d_speed, 0)
-                #     elif event.key == pygame.K_w:
-                #         self.robot1.changespeed(0, d_speed)
-                #     elif event.key == pygame.K_s:
-                #         self.robot1.changespeed(0, -d_speed)
-                #     elif event.key == pygame.K_q:
-                #         self.robot1.rotate(-d_angle)
-                #     elif event.key == pygame.K_e:
-                #         self.robot1.rotate(d_angle)
+                #     del old_surface_saved                     
 
                 elif event.type == pygame.KEYDOWN:
                     for robot in self.robots_list:
@@ -437,6 +411,18 @@ class Game:
                 elif event.type == pygame.KEYUP:
                     for robot in self.robots_list:
                         robot.process_event(event)
+                        
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    for robot in self.robots_list:
+                        robot.process_joystick_event(event)
+
+                elif event.type == pygame.JOYBUTTONUP:
+                    for robot in self.robots_list:
+                        robot.process_joystick_event(event)
+
+                elif event.type == pygame.JOYAXISMOTION:
+                    for robot in self.robots_list:
+                        robot.process_joystick_event(event)
 
             for robot in self.robots_list:
                 robot.update(self.solid_sprites_list)

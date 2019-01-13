@@ -11,15 +11,18 @@ from robot_chassis import RobotChassis
 #####################################################################
 class Robot(pygame.sprite.Sprite):
 
-    def __init__(self, x, y,color, angle, keymap, is_mecanum=False, team_name=5115, width=27*in_, length=38*in_):
+    def __init__(self, x, y,color, angle, keymap, joystick=-1, is_mecanum=False, team_name=5115, width=27*in_, length=38*in_):
 
         # Call the parent's constructor
         super(Robot,self).__init__()
 
-        self.verbosity=0
+        self.verbosity=10
 
         self.keymap=keymap
+        self.joystick_id=joystick
 
+
+        
         if True:
             self.image = pygame.Surface((width,length), pygame.SRCALPHA)
             
@@ -77,9 +80,12 @@ class Robot(pygame.sprite.Sprite):
         # self.last_rotation_rate=0
 
     def changespeed(self, a_x, a_y):
+
+        
         if a_y !=0:
             self.chassis.change_forward_speed(a_y)
-        elif a_x !=0:
+            
+        if a_x !=0:
             self.chassis.change_side_speed(a_x)        
 
 
@@ -175,3 +181,65 @@ class Robot(pygame.sprite.Sprite):
                 self.rotate(-self.d_angle)
             elif value == "rotate_right":
                 self.rotate(self.d_angle)
+
+    def process_joystick_event(self, event):
+        if self.verbosity > 0:
+             print ("n_joysticks", pygame.joystick.get_count())
+             print ("self.joystick_id", self.joystick_id)
+             print ("event.type", event.type)
+        
+        n_joysticks=pygame.joystick.get_count()
+        if self.joystick_id >= n_joysticks:
+            return
+
+        my_joystick=pygame.joystick.Joystick(self.joystick_id)
+        if self.verbosity > 0:
+             print ("n_joysticks", pygame.joystick.get_count())
+             print ("event.type", event.type)
+
+             #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+             
+             if event.type == pygame.JOYAXISMOTION:
+                 print("JOYAXISMOTION")
+             elif event.type == pygame.JOYAXISMOTION:
+                print("JOYBALLMOTION")
+             elif event.type == pygame.JOYBUTTONDOWN:
+                print("JOYBUTTONDOWN")
+             elif event.type == pygame.JOYBUTTONUP:
+                 print("JOYBUTTONUP")
+             elif event.type == pygame.JOYHATMOTION:
+                 print("JOYHATMOTION")
+
+             print ("event.type", event.type)
+             print ("get_hat(0)", my_joystick.get_hat(0))
+
+             for i in range(my_joystick.get_numaxes()):
+                 print ("get_axis(",i,")=",my_joystick.get_axis(i))
+          
+          
+            
+        #              1                            1          
+        #              ^                            ^       
+        #              |                            |       
+        # axis(0) -1 <-----> 1         axis(3) -1 <-----> 1 
+        #              |                            |       
+        #                                                   
+        #              v                            v       
+        #             -1                           -1       
+        #            axis(1)                      axis(4)
+        
+        #print "key=", type(key), "value=",key
+        #print "pygame.K_w=", type(pygame.K_w), "value=",pygame.K_w
+
+        left_stick_x=my_joystick.get_axis(0)
+        left_stick_y=my_joystick.get_axis(1)
+        right_stick_x=my_joystick.get_axis(3)
+
+        accel_x=left_stick_x;
+        accel_y=left_stick_y
+        rotate=right_stick_x;
+        self.changespeed(accel_x,accel_y)
+
+        d_angle=rotate
+        self.rotate(d_angle)
+
