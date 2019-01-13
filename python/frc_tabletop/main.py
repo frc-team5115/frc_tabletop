@@ -349,17 +349,9 @@ class Game:
         pygame.draw.line(self.screen, BLUE, (mid_blue_x, min_y), (mid_blue_x, max_y), line_width)
         pygame.draw.line(self.screen, RED, (mid_red_x, min_y), (mid_red_x, max_y), line_width)
 
-     
-
-        
-    def run(self):
-        d_angle=3
-        d_speed=3
-        done=False
-        
-        while not done:
-
-            for event in pygame.event.get():
+    #################################################################################################### 
+    def process_events(self):
+        for event in pygame.event.get():
                 
                 if event.type == pygame.QUIT:
                     done = True
@@ -387,25 +379,22 @@ class Game:
                        ( event.type == pygame.JOYHATMOTION)):
                     for robot in self.robots_list:
                         robot.process_joystick_event(event)
+            ### end of event processing
+            
+    ##############################################################################################    
+    def run(self):
+        #d_angle=3
+        #d_speed=3
+        done=False
+        
+        while not done:
 
-                # elif event.type == pygame.JOYBUTTONUP:
-                #     for robot in self.robots_list:
-                #         robot.process_joystick_event(event)
-
-                # elif event.type == pygame.JOYAXISMOTION:
-                #     for robot in self.robots_list:
-                #         robot.process_joystick_event(event)
-
+            self.process_events()
+            
+            # This actually moves the robot block based on the current speed
             for robot in self.robots_list:
                 robot.update(self.solid_sprites_list)
-            # This actually moves the robot block based on the current speed
-            #self.robot1.update(self.solid_sprites_list)
-            #self.robot2.update()
-            #self.robot3.update()
-            #self.robot4.update()
-            #self.robot5.update()
-            #self.robot6.update()
-
+                  
             # -- Draw everything
             # Clear self.screen
             #self.screen.fill(WHITE)
