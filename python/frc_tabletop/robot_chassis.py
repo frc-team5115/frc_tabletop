@@ -48,12 +48,30 @@ class RobotChassis(pygame.sprite.Sprite):
 
         velocity=Vector2(self.side_speed,self.forward_speed)
         velocity.rotate_ip(-theta)
+
+        #self.heading.from_polar([1,theta])
+
+        
+        ##### let's put in maxium speed
+
+        [speed,direction]=velocity.as_polar()
+
+        self.max_speed=2
+        if speed > self.max_speed:
+            velocity.from_polar([self.max_speed,direction])
+
+        
+
         
         self.position = self.position+self.dt*velocity
 
         delta_angle=self.rotation_rate*self.dt
         self.heading.rotate_ip(delta_angle)
 
+
+   
+        
+        
         #if self.verbosity > 5:
         #    print "center=",self.position,
         #    print "delta_angle=",delta_angle,
