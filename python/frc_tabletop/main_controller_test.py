@@ -120,7 +120,7 @@ class Game:
         #
         #
         #
-        self.robot1 = Robot(x=blue_x, y=blue_y1, color=BLUE1, angle=-90,keymap=key_map_1, joystick=joystick_1,is_mecanum=True,team_name=5115,width=27*in_,length=45*in_)
+        self.robot1 = Robot(x=blue_x, y=blue_y1, color=BLUE1, angle=-90,keymap=key_map_1, joystick=joystick_1,is_mecanum=True,mecanum_control_is_in_field_frame=False,team_name=5115,width=27*in_,length=45*in_)
         self.robot2 = Robot(x=blue_x, y=blue_y2, color=BLUE2, angle=0,keymap=key_map_2, joystick=joystick_2,is_mecanum=False,team_name=493,width=27*in_,length=55*in_)
         self.robot3 = Robot(x=blue_x, y=blue_y3, color=BLUE3, angle=180,keymap=key_map_3, joystick=joystick_3,is_mecanum=False,team_name=503,width=45*in_,length=45*in_)
 
