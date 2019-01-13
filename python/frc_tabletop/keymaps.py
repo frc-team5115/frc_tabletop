@@ -21,7 +21,7 @@ key_map_2={ pygame.K_t: "forward",
             pygame.K_h: "strafe_right",
             pygame.K_r: "rotate_right",
             pygame.K_y:  "rotate_left" }
-joystick_2=1
+joystick_2=2
 
 key_map_3={ pygame.K_i: "forward",
             pygame.K_k: "backward",
@@ -29,7 +29,7 @@ key_map_3={ pygame.K_i: "forward",
             pygame.K_l: "strafe_right",
             pygame.K_u: "rotate_right",
             pygame.K_o:  "rotate_left" }
-joystick_3=2
+joystick_3=4
 
 key_map_4={ pygame.K_UP: "forward",
             pygame.K_DOWN: "backward",
@@ -37,7 +37,7 @@ key_map_4={ pygame.K_UP: "forward",
             pygame.K_RIGHT: "strafe_right",
             pygame.K_PAGEUP: "rotate_right",
             pygame.K_PAGEDOWN:  "rotate_left" }
-joystick_4=3
+joystick_4=1
 
 key_map_5={ pygame.K_KP0: "forward",
             pygame.K_KP1: "backward",
@@ -45,7 +45,7 @@ key_map_5={ pygame.K_KP0: "forward",
             pygame.K_KP3: "strafe_right",
             pygame.K_KP4:  "rotate_right",
             pygame.K_KP5: "rotate_left" }
-joystick_5=4
+joystick_5=3
 
 key_map_6={ pygame.K_0: "forward",
             pygame.K_1: "backward",

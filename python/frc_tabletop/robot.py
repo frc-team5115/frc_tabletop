@@ -14,7 +14,7 @@ from chassis_tank_drive import ChassisTankDrive
 #####################################################################
 class Robot(pygame.sprite.Sprite):
 
-    def __init__(self, x, y,color, angle, keymap, joystick=-1, is_mecanum=False, team_name=5115, width=27*in_, length=38*in_):
+    def __init__(self, x, y,color, angle, keymap, joystick=-1, is_mecanum=False, mecanum_control_is_in_field_frame=True, team_name=5115, width=27*in_, length=38*in_):
 
         # Call the parent's constructor
         super(Robot,self).__init__()
@@ -35,9 +35,14 @@ class Robot(pygame.sprite.Sprite):
 
 
             if is_mecanum:
+                if mecanum_control_is_in_field_frame:
+                    stipple=2
+                else:
+                    stipple=4
+                    
                 for j in range(int(height/3)):
                     for i in range(width):
-                        if ((i%4==0) and (j%4==0)):
+                        if ((i%stipple==0) and (j%stipple==0)):
                             self.image.set_at([i,j],WHITE)
                         
             else:
@@ -73,10 +78,11 @@ class Robot(pygame.sprite.Sprite):
         self.rect.centery = y
 
 
-       # if is_mecanum:
-       #    self.chassis=ChassisMecanumDrive(self.rect.x,self.rect.y,angle)
-       # else:
-        self.chassis=ChassisTankDrive(self.rect.x,self.rect.y,angle,is_mecanum)
+#        if is_mecanum:
+#            self.chassis=ChassisMecanumDrive(self.rect.x,self.rect.y,angle)
+#        else:
+
+        self.chassis=ChassisTankDrive(self.rect.x,self.rect.y,angle,is_mecanum=is_mecanum, mecanum_control_is_in_field_frame=mecanum_control_is_in_field_frame)
 
         self.dt=1
         self.d_angle=3

@@ -26,8 +26,8 @@ from pygame.math import Vector2
 
 # the rect element is used to blit the sprite
                                                                  
-class ChassisTankDrive(pygame.sprite.Sprite):
-    def __init__(self, x, y, angle,is_mecanum=False,mecanum_control_is_in_field_frame=False):
+class ChassisMecanumDrive(pygame.sprite.Sprite):
+    def __init__(self, x, y, angle,is_mecanum=True):
         self.position= Vector2(x,y)
         self.heading= Vector2(0,0)
         self.velocity= Vector2(0,0)
@@ -53,7 +53,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         self.dt=1
         self.verbosity=0
         self.is_mecanum=is_mecanum
-        self.mecanum_control_is_in_field_frame=mecanum_control_is_in_field_frame
+
 
         
         self.set_heading_angle(angle)
@@ -121,10 +121,9 @@ class ChassisTankDrive(pygame.sprite.Sprite):
 
 
         #### rotate to an intertial frame (the playing field)    
-        if self.is_mecanum and self.mecanum_control_is_in_field_frame:
-            self.velocity=velocity_body
-        else:
-            self.velocity=velocity_body.rotate(-theta)
+        #self.velocity=velocity_body.rotate(-theta)
+
+        self.velocity=velocity_body
 
         
         self.position = self.position+self.dt*self.velocity

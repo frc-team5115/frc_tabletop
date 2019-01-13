@@ -10,9 +10,10 @@ Author: Joe Adams
  Email: joseph.s.adams@gmail.com
    URL: git@github.com:frc-team5115/frc_tabletop.git
 
-version: 3
+version: 4
 
 yy/mm/dd
+19/01/13 - added joystick support
 19/01/11 - multiple keymaps now working
 
 
@@ -218,12 +219,12 @@ class Game:
         #
         #
         #
-        self.robot1 = Robot(x=blue_x, y=blue_y1, color=BLUE1, angle=270,keymap=key_map_1, joystick=joystick_1,is_mecanum=True,team_name=5115,width=27*in_,length=45*in_)
-        self.robot2 = Robot(x=blue_x, y=blue_y2, color=BLUE2, angle=270,keymap=key_map_2, joystick=joystick_2,is_mecanum=False,team_name=493,width=27*in_,length=55*in_)
+        self.robot1 = Robot(x=blue_x, y=blue_y1, color=BLUE1, angle=270,keymap=key_map_1, joystick=joystick_1,is_mecanum=True,mecanum_control_is_in_field_frame=True, team_name=5115,width=27*in_,length=45*in_)
+        self.robot2 = Robot(x=blue_x, y=blue_y2, color=BLUE2, angle=270,keymap=key_map_2, joystick=joystick_2,is_mecanum=True,mecanum_control_is_in_field_frame=False, team_name=493,width=27*in_,length=55*in_)
         self.robot3 = Robot(x=blue_x, y=blue_y3, color=BLUE3, angle=270,keymap=key_map_3, joystick=joystick_3,is_mecanum=False,team_name=503,width=45*in_,length=45*in_)
 
 
-        self.robot4 = Robot(x=red_x, y=red_y1,color=RED1,angle=90,keymap=key_map_4,joystick=joystick_4,is_mecanum=True,team_name=3361,width=27*in_,length=45*in_)
+        self.robot4 = Robot(x=red_x, y=red_y1,color=RED1,angle=90,keymap=key_map_4,joystick=joystick_4,is_mecanum=True,mecanum_control_is_in_field_frame=False,team_name=3361,width=27*in_,length=45*in_)
         self.robot5 = Robot(x=red_x, y=red_y2,color=RED2,angle=90,keymap=key_map_5,joystick=joystick_5,is_mecanum=False,team_name=3258,width=27*in_,length=45*in_)
         self.robot6 = Robot(x=red_x, y=red_y3,color=RED3,angle=90,keymap=key_map_6,joystick=joystick_6,is_mecanum=False,team_name=2106,width=27*in_,length=45*in_)
 
