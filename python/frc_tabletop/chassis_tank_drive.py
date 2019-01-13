@@ -27,7 +27,7 @@ from pygame.math import Vector2
 # the rect element is used to blit the sprite
                                                                  
 class ChassisTankDrive(pygame.sprite.Sprite):
-    def __init__(self, x, y, angle,is_macanum=False):
+    def __init__(self, x, y, angle,is_mecanum=False):
         self.position= Vector2(x,y)
         self.heading= Vector2(0,0)
         self.velocity= Vector2(0,0)
@@ -52,7 +52,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
         
         self.dt=1
         self.verbosity=0
-        self.is_macanum=is_macanum
+        self.is_mecanum=is_mecanum
 
 
         
@@ -85,7 +85,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
 
         v2=v_joystick.normalize()*speed
         
-        if not self.is_macanum:
+        if not self.is_mecanum:
             v2.x=0
             
         self.velocity_body_joystick=v2
@@ -93,7 +93,7 @@ class ChassisTankDrive(pygame.sprite.Sprite):
 
     def change_body_velocity_keyboard(self, a_x, a_y):
         a=Vector2(a_x,a_y)            
-        if not self.is_macanum:
+        if not self.is_mecanum:
             a.x=0
         self.velocity_body_keyboard+=a*self.dt
 
