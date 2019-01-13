@@ -207,28 +207,28 @@ class Robot(pygame.sprite.Sprite):
             return
 
         my_joystick=pygame.joystick.Joystick(self.joystick_id)
-        # if self.verbosity > 0:
-        #      print ("n_joysticks", pygame.joystick.get_count())
-        #      print ("event.type", event.type)
+        if self.verbosity > 0:
+             print ("n_joysticks", pygame.joystick.get_count())
+             print ("event.type", event.type)
 
-        #      #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+             #JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
              
-        #      if event.type == pygame.JOYAXISMOTION:
-        #          print("JOYAXISMOTION")
-        #      elif event.type == pygame.JOYAXISMOTION:
-        #         print("JOYBALLMOTION")
-        #      elif event.type == pygame.JOYBUTTONDOWN:
-        #         print("JOYBUTTONDOWN")
-        #      elif event.type == pygame.JOYBUTTONUP:
-        #          print("JOYBUTTONUP")
-        #      elif event.type == pygame.JOYHATMOTION:
-        #          print("JOYHATMOTION")
+             if event.type == pygame.JOYAXISMOTION:
+                 print("JOYAXISMOTION")
+             elif event.type == pygame.JOYAXISMOTION:
+                print("JOYBALLMOTION")
+             elif event.type == pygame.JOYBUTTONDOWN:
+                print("JOYBUTTONDOWN")
+             elif event.type == pygame.JOYBUTTONUP:
+                 print("JOYBUTTONUP")
+             elif event.type == pygame.JOYHATMOTION:
+                 print("JOYHATMOTION")
 
-        #      print ("event.type", event.type)
-        #      print ("get_hat(0)", my_joystick.get_hat(0))
+             print ("event.type", event.type)
+             print ("get_hat(0)", my_joystick.get_hat(0))
 
-        #      for i in range(my_joystick.get_numaxes()):
-        #          print ("get_axis(",i,")=",my_joystick.get_axis(i))
+             for i in range(my_joystick.get_numaxes()):
+                 print ("get_axis(",i,")=",my_joystick.get_axis(i))
           
           
             
@@ -249,11 +249,23 @@ class Robot(pygame.sprite.Sprite):
         left_stick_y=my_joystick.get_axis(1)
         right_stick_x=my_joystick.get_axis(3)
 
-
+        ### fix bad zero values on sticks
+        if (abs(left_stick_x) < 0.01):
+            left_stick_x=0
+        if (abs(left_stick_y) < 0.01):
+            left_stick_y=0
+        if (abs(right_stick_x) < 0.01):
+            right_stick_x=0
         
         accel_x=round(left_stick_x,3);
         accel_y=round(left_stick_y,3);
         rotate=round(right_stick_x,3);
+
+        if self.verbosity > 5:
+             print ("accel_x", accel_x)
+             print ("accel_y", accel_y)
+             print ("rotate", rotate)
+                     
         self.set_body_velocity_joystick(accel_x,accel_y)
 
         d_angle=rotate

@@ -27,9 +27,9 @@ from pygame.math import Vector2
 # the rect element is used to blit the sprite
                                                                  
 class ChassisTankDrive(pygame.sprite.Sprite):
-    def __init__(self, x, y, angle,is_mecanum=False,mecanum_control_is_in_field_frame=False):
+    def __init__(self, x, y, angle,is_mecanum=False, mecanum_control_is_in_field_frame=False):
         self.position= Vector2(x,y)
-        self.heading= Vector2(0,0)
+        self.heading=  Vector2(0,0)
         self.velocity= Vector2(0,0)
 
 
